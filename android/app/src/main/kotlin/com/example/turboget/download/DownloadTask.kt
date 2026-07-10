@@ -151,14 +151,14 @@ class DownloadTask(
                             try {
                                 (this as java.lang.Object).wait()
                             } catch (e: InterruptedException) {
-                                break
+                                return@use
                             }
                         }
                     }
                     
                     // Check for cancellation
                     if (isCancelled) {
-                        return
+                        return@use
                     }
                     
                     // Write to file
