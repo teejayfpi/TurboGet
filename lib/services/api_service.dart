@@ -213,6 +213,12 @@ class ApiService {
     _baseUrl = url;
   }
 
+  /// Get the backend server URL
+  String get baseUrl => _baseUrl;
+  
+  /// Set the backend server URL
+  set baseUrl(String url) => _baseUrl = url;
+
   /// Detect file type from URL
   Future<FileDetectionResult?> detectFile(String url) async {
     try {
