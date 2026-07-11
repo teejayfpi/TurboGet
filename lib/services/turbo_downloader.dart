@@ -92,7 +92,7 @@ class TurboDownloader {
 
     // Start download in background
     _startDownload(item, progressController).catchError((error) {
-      progressController.addError(error);
+      progressController.addError(error as Object);
       return null;
     });
 
@@ -611,7 +611,7 @@ class TurboDownloader {
           }
         },
         onDone: () => completer.complete(),
-        onError: (e) => completer.completeError(e),
+        onError: (e) => completer.completeError(e as Object),
         cancelOnError: true,
       );
 

@@ -41,7 +41,7 @@ class MediaDetectorService {
         final url = match.group(0)!;
         try {
           final platform = await _platformAnalyzer.detectPlatform(url);
-          if (platform != PlatformType.general) {
+          if (platform != PlatformType.generic) {
             final metadata = await _platformAnalyzer.getVideoMetadata(url);
             debugPrint('Media detected: $url title=${metadata['title'] ?? ''}');
             // Minimal behavior: add to download queue via DownloadManager.

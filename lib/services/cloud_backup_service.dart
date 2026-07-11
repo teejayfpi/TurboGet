@@ -82,7 +82,13 @@ class CloudBackupService {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getInt('auto_backup_interval') ?? 24;
   }
+  
+  Future<void> syncNow() async {
+    // Placeholder for sync functionality
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('last_sync', DateTime.now().toIso8601String());
+  }
 }
 
 /// Global instance
-final cloudBackupService = CloudBackupService();
+final cloudBackupService = CloudBackupService.instance;

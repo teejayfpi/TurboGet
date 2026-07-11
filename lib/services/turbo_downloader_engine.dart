@@ -167,50 +167,50 @@ class TurboDownloadItem {
 
   factory TurboDownloadItem.fromMap(Map<String, dynamic> map) {
     return TurboDownloadItem(
-      id: map['id'],
-      url: map['url'],
-      filename: map['filename'],
-      downloadPath: map['download_path'],
-      tempPath: map['temp_path'],
-      totalSize: map['total_size'] ?? 0,
-      downloadedSize: map['downloaded_size'] ?? 0,
-      progress: map['progress'] ?? 0,
-      speed: (map['speed'] ?? 0).toDouble(),
-      peakSpeed: (map['peak_speed'] ?? 0).toDouble(),
-      averageSpeed: (map['average_speed'] ?? 0).toDouble(),
+      id: map['id'] as String,
+      url: map['url'] as String,
+      filename: map['filename'] as String,
+      downloadPath: map['download_path'] as String?,
+      tempPath: map['temp_path'] as String?,
+      totalSize: (map['total_size'] ?? 0) as int,
+      downloadedSize: (map['downloaded_size'] ?? 0) as int,
+      progress: (map['progress'] ?? 0) as int,
+      speed: (map['speed'] ?? 0.0) as double,
+      peakSpeed: (map['peak_speed'] ?? 0.0) as double,
+      averageSpeed: (map['average_speed'] ?? 0.0) as double,
       status: TurboDownloadStatus.values.firstWhere(
         (e) => e.name == map['status'],
         orElse: () => TurboDownloadStatus.pending,
       ),
-      error: map['error'],
-      createdAt: map['created_at'] ?? DateTime.now().millisecondsSinceEpoch,
-      startedAt: map['started_at'],
-      completedAt: map['completed_at'],
-      lastResumeAt: map['last_resume_at'],
-      retryCount: map['retry_count'] ?? 0,
-      maxRetries: map['max_retries'] ?? 10,
+      error: map['error'] as String?,
+      createdAt: (map['created_at'] ?? DateTime.now().millisecondsSinceEpoch) as int,
+      startedAt: map['started_at'] as int?,
+      completedAt: map['completed_at'] as int?,
+      lastResumeAt: map['last_resume_at'] as int?,
+      retryCount: (map['retry_count'] ?? 0) as int,
+      maxRetries: (map['max_retries'] ?? 10) as int,
       priority: DownloadPriority.values.firstWhere(
-        (e) => e.value == map['priority'],
+        (e) => e.value == (map['priority'] as int?),
         orElse: () => DownloadPriority.normal,
       ),
       segments: (map['segments'] as List<dynamic>?)
-          ?.map((s) => TurboSegment.fromMap(s))
+          ?.map((s) => TurboSegment.fromMap(s as Map<String, dynamic>))
           .toList() ?? [],
-      supportsResuming: map['supports_resuming'] ?? false,
-      mimeType: map['mime_type'],
-      etag: map['etag'],
-      lastModified: map['last_modified'],
-      checksum: map['checksum'],
-      checksumAlgorithm: map['checksum_algorithm'],
-      connectionsUsed: map['connections_used'] ?? 0,
-      optimalConnections: map['optimal_connections'] ?? 4,
+      supportsResuming: (map['supports_resuming'] ?? false) as bool,
+      mimeType: map['mime_type'] as String?,
+      etag: map['etag'] as String?,
+      lastModified: map['last_modified'] as String?,
+      checksum: map['checksum'] as String?,
+      checksumAlgorithm: map['checksum_algorithm'] as String?,
+      connectionsUsed: (map['connections_used'] ?? 0) as int,
+      optimalConnections: (map['optimal_connections'] ?? 4) as int,
       connectionQuality: ConnectionQuality.values.firstWhere(
-        (e) => e.name == map['connection_quality'],
+        (e) => e.name == (map['connection_quality'] as String?),
         orElse: () => ConnectionQuality.good,
       ),
-      bandwidthShare: (map['bandwidth_share'] ?? 1.0).toDouble(),
+      bandwidthShare: (map['bandwidth_share'] ?? 1.0) as double,
       lastActivity: map['last_activity'] != null 
-          ? DateTime.tryParse(map['last_activity']) 
+          ? DateTime.tryParse(map['last_activity'] as String) 
           : null,
     );
   }
@@ -378,16 +378,16 @@ class TurboSegment {
 
   factory TurboSegment.fromMap(Map<String, dynamic> map) {
     return TurboSegment(
-      index: map['index'],
-      start: map['start'],
-      end: map['end'],
-      downloadedBytes: map['downloaded_bytes'] ?? 0,
-      isComplete: map['is_complete'] ?? false,
-      isActive: map['is_active'] ?? false,
-      connectionIndex: map['connection_index'] ?? 0,
-      speed: (map['speed'] ?? 0).toDouble(),
+      index: map['index'] as int,
+      start: map['start'] as int,
+      end: map['end'] as int,
+      downloadedBytes: (map['downloaded_bytes'] ?? 0) as int,
+      isComplete: (map['is_complete'] ?? false) as bool,
+      isActive: (map['is_active'] ?? false) as bool,
+      connectionIndex: (map['connection_index'] ?? 0) as int,
+      speed: (map['speed'] ?? 0.0) as double,
       lastUpdate: map['last_update'] != null 
-          ? DateTime.tryParse(map['last_update']) 
+          ? DateTime.tryParse(map['last_update'] as String) 
           : null,
     );
   }

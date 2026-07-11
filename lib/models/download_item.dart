@@ -97,7 +97,9 @@ class DownloadItem {
           ? List<DownloadSegment>.from((jsonDecode(map['segments'] as String) as List).map((x) => DownloadSegment.fromMap(Map<String, dynamic>.from(x as Map))))
           : null,
       error: map['error'] as String?,
-      metadata: map['metadata'] != null ? Map<String, dynamic>.from(jsonDecode(map['metadata'] as String) as Map<dynamic, dynamic>),
+      metadata: map['metadata'] != null 
+          ? Map<String, dynamic>.from(jsonDecode(map['metadata'] as String) as Map<dynamic, dynamic>)
+          : null,
     );
   }
 }

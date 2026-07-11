@@ -110,7 +110,7 @@ class ConcurrentDownloadManager {
           _downloadController.add(failedItem);
 
           _activeDownloads.remove(item.id);
-          _downloadCompleters.remove(item.id)?.completeError(error);
+          _downloadCompleters.remove(item.id)?.completeError(error as Object);
           _processQueue();
         },
       );
@@ -175,7 +175,10 @@ class ConcurrentDownloadManager {
   Future<DownloadState?> _getDownloadState(String id) async {
     final download = await _db.getDownload(id);
     if (download != null && download['resume_data'] != null) {
-      return DownloadState.fromJson(Map<String, dynamic>.from(download['resume_data']));
+      final resumeData = download['resume_data'];
+      if (resumeData is Map) {
+        return DownloadState.fromJson(Map<String, dynamic>.from(resumeData));
+      }
     }
     return null;
   }

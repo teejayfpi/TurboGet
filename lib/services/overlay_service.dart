@@ -14,8 +14,8 @@ class OverlayService {
     // This needs to be implemented using platform-specific code
     const platform = MethodChannel('com.example.turboget/overlay');
     try {
-      final bool hasPermission = await platform.invokeMethod('requestOverlayPermission');
-      return hasPermission;
+      final result = await platform.invokeMethod<bool>('requestOverlayPermission');
+      return result ?? false;
     } catch (e) {
       print('Failed to get overlay permission: $e');
       return false;

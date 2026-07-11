@@ -67,4 +67,20 @@ class SettingsManager {
       return currentMinutes >= startMinutes || currentMinutes < endMinutes;
     }
   }
+
+  // Generic settings methods
+  Future<String?> getSetting(String key) async {
+    await initialize();
+    return _prefs?.getString(key);
+  }
+
+  Future<void> setSetting(String key, String value) async {
+    await initialize();
+    await _prefs?.setString(key, value);
+  }
+
+  Future<void> deleteSetting(String key) async {
+    await initialize();
+    await _prefs?.remove(key);
+  }
 }

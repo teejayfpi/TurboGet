@@ -107,8 +107,8 @@ class EnterpriseDownloadItem {
       totalSize: (map['total_size'] ?? 0) as int,
       downloadedSize: (map['downloaded_size'] ?? 0) as int,
       progress: (map['progress'] ?? 0) as int,
-      speed: (map['speed'] ?? 0).toDouble(),
-      averageSpeed: (map['average_speed'] ?? 0).toDouble(),
+      speed: (map['speed'] ?? 0.0) as double,
+      averageSpeed: (map['average_speed'] ?? 0.0) as double,
       status: EnterpriseDownloadStatus.values.firstWhere(
         (e) => e.name == map['status'],
         orElse: () => EnterpriseDownloadStatus.pending,
@@ -118,15 +118,15 @@ class EnterpriseDownloadItem {
       completedAt: map['completed_at'] as int?,
       lastResumeAt: map['last_resume_at'] as int?,
       retryCount: (map['retry_count'] ?? 0) as int,
-      maxRetries: map['max_retries'] ?? 5,
+      maxRetries: (map['max_retries'] ?? 5) as int,
       segments: (map['segments'] as List<dynamic>?)
-          ?.map((s) => DownloadSegment.fromMap(s))
+          ?.map((s) => DownloadSegment.fromMap(Map<String, dynamic>.from(s as Map)))
           .toList() ?? [],
       supportsResuming: map['supports_resuming'] == 1,
-      mimeType: map['mime_type'],
-      etag: map['etag'],
+      mimeType: map['mime_type'] as String?,
+      etag: map['etag'] as String?,
       lastModified: map['last_modified'] != null 
-          ? DateTime.tryParse(map['last_modified']) 
+          ? DateTime.tryParse(map['last_modified'] as String) 
           : null,
     );
   }
@@ -223,11 +223,11 @@ class DownloadSegment {
 
   factory DownloadSegment.fromMap(Map<String, dynamic> map) {
     return DownloadSegment(
-      index: map['index'],
-      start: map['start'],
-      end: map['end'],
-      downloadedBytes: map['downloaded_bytes'] ?? 0,
-      isComplete: map['is_complete'] ?? false,
+      index: map['index'] as int,
+      start: map['start'] as int,
+      end: map['end'] as int,
+      downloadedBytes: (map['downloaded_bytes'] ?? 0) as int,
+      isComplete: (map['is_complete'] ?? false) as bool,
     );
   }
 
@@ -789,7 +789,7 @@ class EnterpriseDownloadService {
             
             final now = DateTime.now();
             final elapsed = now.difference(startTime).inSeconds;
-            final currentSpeed = elapsed > 0 ? totalDownloaded / elapsed : 0;
+            final double currentSpeed = elapsed > 0 ? totalDownloaded / elapsed : 0.0;
             
             // Track speed
             speedSamples.add(_SpeedSample(now, totalDownloaded));
@@ -804,7 +804,7 @@ class EnterpriseDownloadService {
               final last = speedSamples.last;
               final timeDiff = last.timestamp.difference(first.timestamp).inSeconds;
               if (timeDiff > 0) {
-                averageSpeed = (last.bytes - first.bytes) / timeDiff;
+                averageSpeed = ((last.bytes - first.bytes) / timeDiff).toDouble();
               }
             }
 
@@ -816,7 +816,7 @@ class EnterpriseDownloadService {
               final updated = download.copyWith(
                 downloadedSize: totalDownloaded,
                 progress: progress,
-                speed: currentSpeed,
+                speed: currentSpeed.toDouble(),
                 averageSpeed: averageSpeed,
               );
               _downloads[id] = updated;
@@ -826,8 +826,6 @@ class EnterpriseDownloadService {
                 downloadId: id,
                 filename: download.filename,
                 progress: progress,
-                downloadedBytes: totalDownloaded,
-                totalBytes: download.totalSize,
               );
               
               lastProgressUpdate = now;
