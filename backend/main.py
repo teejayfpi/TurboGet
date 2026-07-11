@@ -1,6 +1,6 @@
 """
-TurboGet Backend Server
-A comprehensive file download server with YouTube support and general file downloads.
+TurboGet Backend Server - Built by Olatunji Ayobami Ayanlowo
+A comprehensive file download server with ALL streaming platforms support.
 """
 
 import os
@@ -26,18 +26,88 @@ DOWNLOAD_DIR.mkdir(exist_ok=True)
 TEMP_DIR = Path("./temp")
 TEMP_DIR.mkdir(exist_ok=True)
 
-# Supported platforms for video extraction
+# ALL Supported streaming platforms (handled by yt-dlp)
 VIDEO_PLATFORMS = [
-    'youtube.com',
-    'youtu.be',
-    'vimeo.com',
+    # Major Platforms
+    'youtube.com', 'youtu.be', 'youtube-nocookie.com',
+    'vimeo.com', 'dailymotion.com',
+    'facebook.com', 'fb.com', 'fb.watch',
+    'instagram.com', 'instagr.am',
+    'twitter.com', 'x.com',
+    'tiktok.com', 'vm.tiktok.com',
+    
+    # Video Platforms
+    'twitch.tv', 'clips.twitch.tv',
+    'reddit.com', 'old.reddit.com',
+    'vk.com', 'vk.ru',
+    'ok.ru', 'okweb.ru',
+    'mail.ru', 'my.mail.ru',
+    
+    # Music/Audio Platforms
+    'soundcloud.com', 'music.soundcloud.com',
+    'bandcamp.com',
+    'spotify.com',
+    'deezer.com',
+    'apple.co', 'music.apple.com',
+    
+    # Chinese Platforms
+    'bilibili.com', 'b23.tv',
+    'douyin.com', 'www.douyin.com',
+    
+    # Indian Platforms
+    'jiosaavn.com',
+    'sharechat.com',
+    'roposo.com',
+    
+    # Other Streaming
+    'pornhub.com', 'phncdn.com',
+    'xvideos.com',
+    'xhamster.com',
+    'megaphone.fm',
+    'podbean.com',
+    'anchor.fm',
+    'spoke.fm',
+    'buzzsprout.com',
+    
+    # News & Media
+    'bbc.co.uk', 'bbc.com/iplayer',
+    'cnn.com',
+    'fox.com',
+    'nbc.com',
+    'abc.com',
+    'cbs.com',
+    
+    # Educational
+    'udemy.com',
+    'coursera.org',
+    'skillshare.com',
+    'lynda.com', 'linkedin.com/learning',
+    'masterclass.com',
+    
+    # Livestream
+    'livejournal.com',
+    'streamable.com',
+    '牢趣tv', 'laoqu.tv',
+    
+    # More Video
+    'metacafe.com',
+    'veoh.com',
     'dailymotion.com',
-    'twitter.com',
-    'x.com',
-    'instagram.com',
-    'facebook.com',
-    'tiktok.com',
-    'soundcloud.com',
+    'break.com',
+    'liveleak.com',
+    'vid.me',
+    'vimeo.com',
+    
+    # Clips & Shorts
+    'clips.ru',
+    'share.vidyard.com',
+    'getyarn.io',
+    
+    # embeds
+    'youtube.com/embed',
+    'youtube.com/watch',
+    'youtube.com/shorts',
+    'player.vimeo.com',
 ]
 
 # File type mappings

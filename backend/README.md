@@ -1,23 +1,33 @@
 # TurboGet Backend Server
+### Built & Designed by Olatunji Ayobami Ayanlowo
+### Contact: +2347038193753
 
 A comprehensive backend server for TurboGet app that supports:
 - YouTube video downloads
+- Facebook video downloads
+- ALL streaming platforms
 - General file downloads from any URL
 - File type detection
 - Multiple quality options for video downloads
+- MAXIMUM SPEED downloads
 
 ## Features
 
-### Supported Platforms
+### Supported Platforms (100+)
 - YouTube (youtube.com, youtu.be)
+- Facebook (facebook.com, fb.com, fb.watch)
+- Instagram (instagram.com, instagr.am)
+- Twitter/X (twitter.com, x.com)
+- TikTok (tiktok.com, vm.tiktok.com)
 - Vimeo
 - Dailymotion
-- Twitter/X
-- Instagram
-- Facebook
-- TikTok
+- Twitch
+- Reddit
 - SoundCloud
-- And 50+ other platforms via yt-dlp
+- Bandcamp
+- Bilibili
+- VK
+- And 90+ other platforms via yt-dlp
 
 ### Supported File Types
 - **Video**: mp4, mkv, avi, mov, wmv, flv, webm, m4v, 3gp
