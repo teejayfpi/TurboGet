@@ -200,7 +200,7 @@ class ApiService {
   String _baseUrl;
   static ApiService? _instance;
 
-  ApiService._internal() : _baseUrl = 'http://localhost:8000';
+  ApiService._internal() : _baseUrl = 'https://turboget-863ntg2gi-coopvest-africas-projects.vercel.app';
 
   factory ApiService() {
     _instance ??= ApiService._internal();
