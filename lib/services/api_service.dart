@@ -211,6 +211,68 @@ class ApiService {
   String get baseUrl => _baseUrl;
   set baseUrl(String url) => _baseUrl = url;
 
+  /// Get backend health status
+  Future<Map<String, dynamic>?> checkHealth() async {
+    try {
+      final response = await _client.get(Uri.parse('$baseUrl/health'));
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      }
+    } catch (e) {
+      debugPrint('Health check failed: $e');
+    }
+    return null;
+  }
+
+  /// Detect file type from URL using POST
+  Future<Map<String, dynamic>?> detectFile(String url) async {
+    try {
+      final response = await _client.post(
+        Uri.parse('$baseUrl/api/detect?url=$url'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'url': url}),
+      );
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      }
+    } catch (e) {
+      debugPrint('Detect failed: $e');
+    }
+    return null;
+  }
+
+  /// Get video info
+  Future<Map<String, dynamic>?> getVideoInfo(String url) async {
+    try {
+      final response = await _client.post(
+        Uri.parse('$baseUrl/api/video/info'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'url': url}),
+      );
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      }
+    } catch (e) {
+      debugPrint('Video info failed: $e');
+    }
+    return null;
+  }
+
+  /// Get download progress
+  Future<Map<String, dynamic>?> getDownloadProgress(String downloadId) async {
+    try {
+      final response = await _client.get(
+        Uri.parse('$baseUrl/api/progress/$downloadId'),
+      );
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      }
+    } catch (e) {
+      debugPrint('Progress check failed: $e');
+    }
+    return null;
+  }
+
   /// Set server URL and save to preferences
   Future<void> setServerUrl(String url) async {
     _baseUrl = url;
