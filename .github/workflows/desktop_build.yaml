@@ -37,8 +37,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: turboget-windows
-          path: build/windows/runner/Release/
+          path: build/windows/runner/Release
           retention-days: 30
+          if-no-files-found: error
 
   # macOS build is skipped due to CocoaPods dependency issues with wakelock_plus
   # The package requires macOS 10.15+ but the CI environment has configuration issues
@@ -75,8 +76,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: turboget-linux
-          path: build/linux/release/bundle/
+          path: build/linux/release/bundle
           retention-days: 30
+          if-no-files-found: error
 
   release:
     name: Create Desktop Release
