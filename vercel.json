@@ -2,23 +2,16 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/**/*.py",
-      "use": "@vercel/python"
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/$1.py"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/api/$1.js"
     }
   ],
-  "env": {
-    "PYTHON_VERSION": "3.11"
-  },
   "headers": [
     {
       "source": "/api/(.*)",
