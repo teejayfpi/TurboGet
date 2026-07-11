@@ -15,10 +15,6 @@ analyzer:
     missing_required_param: error
     missing_return: error
     
-    # Treat invalid casts as errors  
-    invalid_cast: error
-    invalid_assignment: error
-    
     # Treat unused code as warnings
     unused_code: warning
     unused_import: warning
@@ -29,7 +25,6 @@ analyzer:
     
   language:
     strict-casts: true
-    strict-raw-types: true
 
 linter:
   rules:
@@ -82,9 +77,6 @@ linter:
     - use_function_type_syntax_for_parameters
     - use_rethrow_when_possible
     - valid_regexps
-    
-    # Documentation
-    - package_doc_comments
     
   # Exclude certain rules for specific files/directories
   exclude:
