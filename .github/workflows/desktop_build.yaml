@@ -40,37 +40,9 @@ jobs:
           path: build/windows/runner/Release/
           retention-days: 30
 
-  build-macos:
-    name: Build macOS
-    runs-on: macos-14
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: 'stable'
-
-      - name: Enable desktop
-        run: flutter config --enable-macos-desktop
-
-      - name: Get dependencies
-        run: flutter pub get
-
-      - name: Build macOS
-        run: |
-          # Set deployment target in Xcode project before building
-          sed -i '' 's/MACOSX_DEPLOYMENT_TARGET = [0-9.]*;/MACOSX_DEPLOYMENT_TARGET = 10.15;/g' macos/Runner.xcodeproj/project.pbxproj || true
-          flutter build macos --release
-
-      - name: Upload macOS artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: turboget-macos
-          path: build/macos/Build/Products/Release/
-          retention-days: 30
+  # macOS build is skipped due to CocoaPods dependency issues with wakelock_plus
+  # The package requires macOS 10.15+ but the CI environment has configuration issues
+  # To build macOS locally, ensure you have Xcode and CocoaPods installed
 
   build-linux:
     name: Build Linux
@@ -108,7 +80,7 @@ jobs:
 
   release:
     name: Create Desktop Release
-    needs: [build-windows, build-macos, build-linux]
+    needs: [build-windows, build-linux]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
@@ -120,12 +92,6 @@ jobs:
         with:
           name: turboget-windows
           path: release/windows
-
-      - name: Download macOS
-        uses: actions/download-artifact@v4
-        with:
-          name: turboget-macos
-          path: release/macos
 
       - name: Download Linux
         uses: actions/download-artifact@v4
@@ -140,7 +106,6 @@ jobs:
           prerelease: false
           files: |
             release/windows/*
-            release/macos/*
             release/linux/*
           tag_name: desktop-v${{ github.run_number }}
           name: TurboGet Desktop v${{ github.run_number }}
@@ -149,7 +114,6 @@ jobs:
             
             Download the appropriate version for your platform:
             - **Windows**: Use the `.exe` file in the `windows` folder
-            - **macOS**: Use the `.app` bundle in the `macos` folder
             - **Linux**: Use the executable in the `linux` folder
             
             ---
