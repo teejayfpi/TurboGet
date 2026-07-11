@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/settings_manager.dart';
 import '../services/download_service.dart';
 import '../services/theme_service.dart';
+import '../services/api_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -14,6 +15,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final _settings = SettingsManager();
   final _downloadService = DownloadService();
   final _themeService = ThemeService.instance;
+  final _apiService = ApiService();
+  bool _isServerConnected = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkServerConnection();
+  }
+
+  Future<void> _checkServerConnection() async {
+    final connected = await _apiService.healthCheck();
+    if (mounted) {
+      setState(() => _isServerConnected = connected);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +39,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: ListView(
         children: [
+          const _SectionHeader(title: 'Server Connection'),
+          ListTile(
+            leading: Icon(
+              _isServerConnected ? Icons.cloud_done : Icons.cloud_off,
+              color: _isServerConnected ? Colors.green : Colors.red,
+            ),
+            title: const Text('Backend Server'),
+            subtitle: Text(_isServerConnected ? 'Connected' : 'Not connected'),
+            trailing: _isServerConnected
+                ? const Icon(Icons.check_circle, color: Colors.green)
+                : const Icon(Icons.error_outline, color: Colors.red),
+            onTap: () => _showServerDialog(context),
+          ),
+          ListTile(
+            leading: const Icon(Icons.dns),
+            title: const Text('Server URL'),
+            subtitle: Text(_apiService.baseUrl),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => _showServerDialog(context),
+          ),
+          const Divider(),
           const _SectionHeader(title: 'Appearance'),
           ListTile(
             leading: const Icon(Icons.palette),
@@ -198,6 +235,57 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final h = hour.toString().padLeft(2, '0');
     final m = minute.toString().padLeft(2, '0');
     return '$h:$m';
+  }
+
+  void _showServerDialog(BuildContext context) {
+    final controller = TextEditingController(text: _apiService.baseUrl);
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Backend Server URL'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Enter the URL of your TurboGet backend server:',
+              style: TextStyle(fontSize: 14),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: controller,
+              decoration: const InputDecoration(
+                labelText: 'Server URL',
+                hintText: 'http://localhost:8000',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Default: http://localhost:8000',
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              final url = controller.text.trim();
+              if (url.isNotEmpty) {
+                _apiService.baseUrl = url;
+                await _checkServerConnection();
+                if (mounted) Navigator.pop(context);
+              }
+            },
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
   }
 
   void _showClearCacheDialog(BuildContext context) {
