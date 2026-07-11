@@ -1,0 +1,17 @@
+# TurboGet Backend - Render Blueprint
+# Built & Designed by Olatunji Ayobami Ayanlowo +2347038193753
+
+services:
+  - name: turboget-server
+    type: web_service
+    runtime: python
+    region: oregon
+    plan: starter
+    repo: https://github.com/teejayfpi/TurboGet
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"
