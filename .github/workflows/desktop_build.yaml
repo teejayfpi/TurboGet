@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: turboget-windows
-          path: build/windows/runner/Release
+          path: build/windows/x64/runner/Release
           retention-days: 30
           if-no-files-found: error
 
@@ -76,7 +76,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: turboget-linux
-          path: build/linux/release/bundle
+          path: build/linux/x64/release/bundle
           retention-days: 30
           if-no-files-found: error
 
