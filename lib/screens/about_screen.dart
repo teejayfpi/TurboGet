@@ -3,8 +3,11 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../services/logger_service.dart';
 
-/// About screen with app info, version, and support links.
-/// Designed by Ayanlowo Olatunji Ayobami
+/// ═══════════════════════════════════════════════════════════════════════════
+/// TURBOGET - Built & Designed by Olatunji Ayobami Ayanlowo
+/// Contact: +2347038193753
+/// ═══════════════════════════════════════════════════════════════════════════
+
 class AboutScreen extends StatefulWidget {
   const AboutScreen({super.key});
 
@@ -52,7 +55,7 @@ class _AboutScreenState extends State<AboutScreen> {
                   _buildHeader(),
                   const Divider(height: 1),
                   
-                  // Creator section
+                  // Creator section - PROMINENT
                   _buildCreatorSection(),
                   const Divider(height: 1),
                   
@@ -256,29 +259,65 @@ class _AboutScreenState extends State<AboutScreen> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Theme.of(context).colorScheme.primary.withOpacity(0.1),
-            Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+            const Color(0xFF0066FF).withOpacity(0.15),
+            const Color(0xFF8B5CF6).withOpacity(0.15),
           ],
         ),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+          color: const Color(0xFF0066FF).withOpacity(0.3),
+          width: 2,
         ),
       ),
       child: Column(
         children: [
+          // Developer Badge
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: const Color(0xFF0066FF),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.verified, color: Colors.white, size: 16),
+                SizedBox(width: 6),
+                Text(
+                  'DEVELOPER',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                    letterSpacing: 1,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF0066FF), Color(0xFF8B5CF6)],
+                  ),
                   shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF0066FF).withOpacity(0.4),
+                      blurRadius: 20,
+                      spreadRadius: 2,
+                    ),
+                  ],
                 ),
                 child: const Icon(
                   Icons.person,
                   color: Colors.white,
-                  size: 24,
+                  size: 32,
                 ),
               ),
               const SizedBox(width: 16),
@@ -287,17 +326,19 @@ class _AboutScreenState extends State<AboutScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Designed & Developed By',
+                      'Built & Designed By',
                       style: TextStyle(
                         color: Colors.grey[600],
                         fontSize: 12,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Ayanlowo Olatunji Ayobami',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      'Olatunji Ayobami Ayanlowo',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
+                        color: const Color(0xFF1E1B4B),
                       ),
                     ),
                   ],
@@ -306,6 +347,40 @@ class _AboutScreenState extends State<AboutScreen> {
             ],
           ),
           const SizedBox(height: 20),
+          
+          // Phone Number - Prominent
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.phone, size: 20, color: Color(0xFF0066FF)),
+                const SizedBox(width: 12),
+                Text(
+                  '+234 703 819 3753',
+                  style: const TextStyle(
+                    color: Color(0xFF1E1B4B),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    letterSpacing: 1,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          
           Row(
             children: [
               Expanded(
@@ -326,28 +401,6 @@ class _AboutScreenState extends State<AboutScreen> {
                 ),
               ),
             ],
-          ),
-          const SizedBox(height: 12),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.phone, size: 16, color: Colors.grey),
-                const SizedBox(width: 8),
-                Text(
-                  '+234 703 819 3753',
-                  style: TextStyle(
-                    color: Colors.grey[700],
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
           ),
         ],
       ),
