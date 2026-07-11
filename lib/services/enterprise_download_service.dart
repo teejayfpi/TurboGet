@@ -99,25 +99,25 @@ class EnterpriseDownloadItem {
 
   factory EnterpriseDownloadItem.fromMap(Map<String, dynamic> map) {
     return EnterpriseDownloadItem(
-      id: map['id'],
-      url: map['url'],
-      filename: map['filename'],
-      downloadPath: map['download_path'],
-      tempPath: map['temp_path'],
-      totalSize: map['total_size'] ?? 0,
-      downloadedSize: map['downloaded_size'] ?? 0,
-      progress: map['progress'] ?? 0,
+      id: map['id'] as String,
+      url: map['url'] as String,
+      filename: map['filename'] as String,
+      downloadPath: map['download_path'] as String?,
+      tempPath: map['temp_path'] as String?,
+      totalSize: (map['total_size'] ?? 0) as int,
+      downloadedSize: (map['downloaded_size'] ?? 0) as int,
+      progress: (map['progress'] ?? 0) as int,
       speed: (map['speed'] ?? 0).toDouble(),
       averageSpeed: (map['average_speed'] ?? 0).toDouble(),
       status: EnterpriseDownloadStatus.values.firstWhere(
         (e) => e.name == map['status'],
         orElse: () => EnterpriseDownloadStatus.pending,
       ),
-      error: map['error'],
-      createdAt: map['created_at'] ?? DateTime.now().millisecondsSinceEpoch,
-      completedAt: map['completed_at'],
-      lastResumeAt: map['last_resume_at'],
-      retryCount: map['retry_count'] ?? 0,
+      error: map['error'] as String?,
+      createdAt: (map['created_at'] ?? DateTime.now().millisecondsSinceEpoch) as int,
+      completedAt: map['completed_at'] as int?,
+      lastResumeAt: map['last_resume_at'] as int?,
+      retryCount: (map['retry_count'] ?? 0) as int,
       maxRetries: map['max_retries'] ?? 5,
       segments: (map['segments'] as List<dynamic>?)
           ?.map((s) => DownloadSegment.fromMap(s))

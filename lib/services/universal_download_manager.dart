@@ -197,7 +197,16 @@ class UniversalDownloadManager {
         onComplete?.call(completedInfo);
       },
       onError: (error) {
-        final errorInfo = completedInfo.copyWith(
+        final errorInfo = _downloadInfo[id]?.copyWith(
+          status: UniversalDownloadStatus.failed,
+          errorMessage: error,
+        ) ?? DownloadProgressInfo(
+          id: id,
+          url: url,
+          filename: resolvedFilename,
+          totalBytes: 0,
+          downloadedBytes: 0,
+          speed: 0,
           status: UniversalDownloadStatus.failed,
           errorMessage: error,
         );
@@ -467,7 +476,7 @@ class _DownloadTask {
         streamedResponse.headers['content-length'] ?? '0'
       ) ?? 0;
 
-      final file = File(path.join(_saveDirectory, filename));
+      final file = File(path.join(saveDirectory, filename));
       final sink = file.openWrite();
 
       await for (final chunk in streamedResponse.stream) {
@@ -517,7 +526,7 @@ class _DownloadTask {
 
   void _updateProgress() {
     final elapsed = _speedTimer!.elapsedMilliseconds / 1000;
-    final speed = elapsed > 0 ? _downloadedBytes / elapsed : 0;
+    final speed = elapsed > 0 ? _downloadedBytes / elapsed : 0.0;
 
     final info = DownloadProgressInfo(
       id: url.hashCode.abs().toString(),
@@ -527,7 +536,7 @@ class _DownloadTask {
       downloadedBytes: _downloadedBytes,
       speed: speed,
       status: UniversalDownloadStatus.downloading,
-      savePath: path.join(_saveDirectory, filename),
+      savePath: path.join(saveDirectory, filename),
     );
 
     onProgress(info);
@@ -542,7 +551,7 @@ class _DownloadTask {
       downloadedBytes: _downloadedBytes,
       speed: 0,
       status: UniversalDownloadStatus.completed,
-      savePath: path.join(_saveDirectory, filename),
+      savePath: path.join(saveDirectory, filename),
     );
 
     onComplete(info);

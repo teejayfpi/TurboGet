@@ -157,10 +157,11 @@ class ConcurrentDownloadManager {
   }
 
   Future<void> _saveDownloadState(String id, DownloadProgress progress) async {
+    final dbDownload = await _db.getDownload(id);
     final state = DownloadState(
       id: id,
-      url: (await _db.getDownload(id))!['url'],
-      filename: (await _db.getDownload(id))!['filename'],
+      url: dbDownload!['url'] as String,
+      filename: dbDownload['filename'] as String,
       totalSize: progress.totalBytes,
       segments: _turboDownloader.getSegmentStates(id),
       lastUpdated: DateTime.now(),
@@ -174,7 +175,7 @@ class ConcurrentDownloadManager {
   Future<DownloadState?> _getDownloadState(String id) async {
     final download = await _db.getDownload(id);
     if (download != null && download['resume_data'] != null) {
-      return DownloadState.fromJson(download['resume_data']);
+      return DownloadState.fromJson(Map<String, dynamic>.from(download['resume_data']));
     }
     return null;
   }

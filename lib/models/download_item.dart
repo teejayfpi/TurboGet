@@ -94,10 +94,10 @@ class DownloadItem {
       progress: (map['progress'] as int?) ?? 0,
       downloadPath: map['download_path'] as String?,
       segments: map['segments'] != null
-          ? List<DownloadSegment>.from((jsonDecode(map['segments'] as String) as List).map((x) => DownloadSegment.fromMap(x as Map<String, dynamic>)))
+          ? List<DownloadSegment>.from((jsonDecode(map['segments'] as String) as List).map((x) => DownloadSegment.fromMap(Map<String, dynamic>.from(x as Map))))
           : null,
       error: map['error'] as String?,
-      metadata: map['metadata'] != null ? Map<String, dynamic>.from(jsonDecode(map['metadata'] as String)) : null,
+      metadata: map['metadata'] != null ? Map<String, dynamic>.from(jsonDecode(map['metadata'] as String) as Map<dynamic, dynamic>),
     );
   }
 }

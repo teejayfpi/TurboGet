@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../services/app_theme.dart';
 import '../services/turbo_downloader_engine.dart';
 import '../services/settings_manager.dart';
+import '../services/cloud_backup_service.dart';
 
 /// ═══════════════════════════════════════════════════════════════════════════
 /// TURBOGET SETTINGS - World Class Design
@@ -170,7 +171,7 @@ class _TurboSettingsScreenState extends ConsumerState<TurboSettingsScreen> {
                             title: 'Sync Now',
                             subtitle: 'Last sync: Never',
                             icon: Icons.sync,
-                            onTap: () => cloudSync.syncNow(),
+                            onTap: () => cloudBackupService.syncNow(),
                           ),
                       ],
                     ),

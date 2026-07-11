@@ -37,15 +37,15 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'],
-      username: json['username'],
-      password: json['password'],
+      id: json['id'] as String,
+      username: json['username'] as String?,
+      password: json['password'] as String,
       role: UserRole.values.firstWhere(
         (e) => e.toString() == 'UserRole.${json['role']}',
         orElse: () => UserRole.guest,
       ),
-      createdAt: DateTime.parse(json['createdAt']),
-      createdBy: json['createdBy'],
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      createdBy: json['createdBy'] as String?,
     );
   }
 }

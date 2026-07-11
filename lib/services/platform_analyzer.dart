@@ -15,12 +15,18 @@ class VideoQuality {
   final String format; // e.g., "mp4", "webm"
   final String url;
   final int? fileSize;
+  final int? width;
+  final int? height;
+  final int? bitrate;
 
   VideoQuality({
     required this.quality,
     required this.format,
     required this.url,
     this.fileSize,
+    this.width,
+    this.height,
+    this.bitrate,
   });
 }
 

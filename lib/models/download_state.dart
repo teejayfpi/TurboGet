@@ -30,14 +30,14 @@ class DownloadState {
 
   factory DownloadState.fromJson(Map<String, dynamic> json) {
     return DownloadState(
-      id: json['id'],
-      url: json['url'],
-      filename: json['filename'],
-      totalSize: json['totalSize'],
+      id: json['id'] as String,
+      url: json['url'] as String,
+      filename: json['filename'] as String,
+      totalSize: json['totalSize'] as int,
       segments: (json['segments'] as List)
-          .map((s) => SegmentState.fromJson(s))
+          .map((s) => SegmentState.fromJson(s as Map<String, dynamic>))
           .toList(),
-      lastUpdated: DateTime.parse(json['lastUpdated']),
+      lastUpdated: DateTime.parse(json['lastUpdated'] as String),
     );
   }
 }
@@ -66,10 +66,10 @@ class SegmentState {
 
   factory SegmentState.fromJson(Map<String, dynamic> json) {
     return SegmentState(
-      start: json['start'],
-      end: json['end'],
-      downloadedBytes: json['downloadedBytes'],
-      status: json['status'],
+      start: json['start'] as int,
+      end: json['end'] as int,
+      downloadedBytes: json['downloadedBytes'] as int,
+      status: json['status'] as String,
     );
   }
 }

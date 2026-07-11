@@ -47,8 +47,8 @@ class CloudBackupService {
       
       if (backupData == null) return null;
       
-      final List<dynamic> jsonList = jsonDecode(backupData);
-      return jsonList.cast<Map<String, dynamic>>();
+      final List<dynamic> jsonList = jsonDecode(backupData) as List<dynamic>;
+      return jsonList.map((e) => Map<String, dynamic>.from(e as Map)).toList();
     } catch (e) {
       return null;
     }
@@ -83,3 +83,6 @@ class CloudBackupService {
     return prefs.getInt('auto_backup_interval') ?? 24;
   }
 }
+
+/// Global instance
+final cloudBackupService = CloudBackupService();
